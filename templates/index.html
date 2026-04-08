@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SNTF — Railway Trip Management</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f4f8; color: #2d3748; }
+        header { background: linear-gradient(135deg, #1a365d, #2b6cb0); color: white; padding: 20px 40px; display: flex; align-items: center; gap: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        header h1 { font-size: 26px; font-weight: 700; letter-spacing: 1px; }
+        header p { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+        .logo { width: 50px; height: 50px; background: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 30px; }
+        .stat-card { background: white; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-top: 4px solid #2b6cb0; }
+        .stat-card .number { font-size: 32px; font-weight: 700; color: #2b6cb0; }
+        .stat-card .label { font-size: 13px; color: #718096; margin-top: 4px; }
+        .search-box { background: white; border-radius: 16px; padding: 28px; margin-bottom: 30px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .search-box h2 { font-size: 18px; color: #1a365d; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+        .search-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 12px; font-weight: 600; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; }
+        input, select { padding: 10px 14px; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 14px; color: #2d3748; background: #f7fafc; transition: border-color 0.2s; }
+        input:focus, select:focus { outline: none; border-color: #2b6cb0; background: white; }
+        .btn-search { padding: 11px 28px; background: #2b6cb0; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .btn-search:hover { background: #1a365d; }
+        .btn-reset { padding: 11px 20px; background: white; color: #718096; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 14px; cursor: pointer; }
+        .btn-reset:hover { background: #f7fafc; }
+        .btn-group { display: flex; gap: 10px; align-items: flex-end; }
+        .results-section { background: white; border-radius: 16px; padding: 28px; margin-bottom: 30px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .results-section h2 { font-size: 18px; color: #1a365d; margin-bottom: 20px; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .badge-count { background: #ebf8ff; color: #2b6cb0; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        thead th { background: #1a365d; color: white; padding: 13px 16px; text-align: left; font-weight: 600; font-size: 13px; letter-spacing: 0.3px; }
+        thead th:first-child { border-radius: 8px 0 0 0; }
+        thead th:last-child { border-radius: 0 8px 0 0; }
+        tbody tr { border-bottom: 1px solid #edf2f7; transition: background 0.15s; }
+        tbody tr:hover { background: #ebf8ff; }
+        tbody td { padding: 13px 16px; }
+        .code-badge { background: #1a365d; color: white; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; font-family: monospace; }
+        .line-badge { background: #e6fffa; color: #276749; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+        .type-normal { background: #fff5f5; color: #c53030; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+        .type-rapid { background: #fffbeb; color: #b7791f; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+        .type-coradia { background: #f0fff4; color: #276749; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+        .class-vip { background: #faf5ff; color: #6b46c1; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+        .class-economy { background: #f7fafc; color: #4a5568; padding: 4px 10px; border-radius: 6px; font-size: 12px; }
+        .price { font-weight: 700; color: #2b6cb0; font-size: 15px; }
+        .schedule { font-family: monospace; font-size: 13px; color: #4a5568; }
+        .no-results { text-align: center; padding: 60px 20px; color: #a0aec0; }
+        .no-results .icon { font-size: 48px; margin-bottom: 12px; }
+        .dom-section { background: #fffbeb; border: 1.5px solid #f6e05e; border-radius: 12px; padding: 20px; margin-bottom: 30px; }
+        .dom-section h2 { font-size: 16px; color: #744210; margin-bottom: 12px; }
+        .dom-box { background: white; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 13px; color: #2d3748; white-space: pre-wrap; overflow-x: auto; border: 1px solid #f6e05e; }
+        .stats-section { background: white; border-radius: 16px; padding: 28px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .stats-section h2 { font-size: 18px; color: #1a365d; margin-bottom: 20px; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .stats-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .stats-table th { background: #f7fafc; color: #4a5568; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #e2e8f0; }
+        .stats-table td { padding: 10px 14px; border-bottom: 1px solid #edf2f7; }
+        .arrow { color: #a0aec0; margin: 0 6px; }
+        footer { text-align: center; padding: 20px; color: #a0aec0; font-size: 13px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">🚆</div>
+    <div>
+        <h1>SNTF — Railway Trip Management</h1>
+        <p>Société Nationale des Transports Ferroviaires — Algeria</p>
+    </div>
+</header>
+
+<div class="container">
+
+    <div class="stats-bar">
+        <div class="stat-card">
+            <div class="number">{{ trips|length }}</div>
+            <div class="label">Total Trips</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">{{ cities|length }}</div>
+            <div class="label">Cities</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">{{ train_types|length }}</div>
+            <div class="label">Train Types</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">6</div>
+            <div class="label">Lines</div>
+        </div>
+    </div>
+
+    <div class="search-box">
+        <h2>🔍 Search & Filter Trips</h2>
+        <form action="/search" method="get">
+            <div class="search-grid">
+                <div class="form-group">
+                    <label>Trip Code</label>
+                    <input type="text" name="code" placeholder="ex: T101"/>
+                </div>
+                <div class="form-group">
+                    <label>Departure</label>
+                    <select name="departure">
+                        <option value="">All cities</option>
+                        {% for city in cities %}
+                        <option value="{{ city }}">{{ city }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Arrival</label>
+                    <select name="arrival">
+                        <option value="">All cities</option>
+                        {% for city in cities %}
+                        <option value="{{ city }}">{{ city }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Train Type</label>
+                    <select name="train_type">
+                        <option value="">All types</option>
+                        {% for t in train_types %}
+                        <option value="{{ t }}">{{ t }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Max Price (DA)</label>
+                    <input type="number" name="max_price" placeholder="ex: 1000"/>
+                </div>
+                <div class="form-group btn-group">
+                    <button type="submit" class="btn-search">Search</button>
+                    <a href="/"><button type="button" class="btn-reset">Reset</button></a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    {% if dom_detail %}
+    <div class="dom-section">
+        <h2>📄 Full Trip Detail (DOM)</h2>
+        <div class="dom-box">{{ dom_detail }}</div>
+    </div>
+    {% endif %}
+
+    <div class="results-section">
+        <h2>Results <span class="badge badge-count">{{ trips|length }} trip(s)</span></h2>
+        {% if trips %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Line</th>
+                    <th>Route</th>
+                    <th>Schedule</th>
+                    <th>Train Type</th>
+                    <th>Class</th>
+                    <th>Price (DA)</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for trip in trips %}
+                {% for cls in trip.classes %}
+                <tr>
+                    {% if loop.first %}
+                    <td rowspan="{{ trip.classes|length }}"><span class="code-badge">{{ trip.code }}</span></td>
+                    <td rowspan="{{ trip.classes|length }}"><span class="line-badge">{{ trip.line_id }}</span></td>
+                    <td rowspan="{{ trip.classes|length }}">{{ trip.departure }}<span class="arrow">→</span>{{ trip.arrival }}</td>
+                    <td rowspan="{{ trip.classes|length }}"><span class="schedule">{{ trip.dep_time }} — {{ trip.arr_time }}</span></td>
+                    <td rowspan="{{ trip.classes|length }}">
+                        {% if trip.train_type == 'Rapid' %}<span class="type-rapid">Rapid</span>
+                        {% elif trip.train_type == 'Coradia' %}<span class="type-coradia">Coradia</span>
+                        {% else %}<span class="type-normal">Normal</span>{% endif %}
+                    </td>
+                    {% endif %}
+                    <td>
+                        {% if cls.type == 'VIP' %}<span class="class-vip">VIP</span>
+                        {% else %}<span class="class-economy">Economy</span>{% endif %}
+                    </td>
+                    <td><span class="price">{{ cls.price }} DA</span></td>
+                </tr>
+                {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="no-results">
+            <div class="icon">🔍</div>
+            <p>No trips found matching your criteria.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    {% if stats %}
+    <div class="stats-section">
+        <h2>📊 Statistics</h2>
+        <div class="stats-grid">
+            <div>
+                <h3 style="font-size:15px; color:#4a5568; margin-bottom:12px;">Price by Line</h3>
+                <table class="stats-table">
+                    <tr><th>Line</th><th>Cheapest (DA)</th><th>Most Expensive (DA)</th></tr>
+                    {% for s in stats %}
+                    <tr>
+                        <td><span class="line-badge">{{ s.line_id }}</span></td>
+                        <td style="color:#276749; font-weight:600;">{{ s.min_price }}</td>
+                        <td style="color:#c53030; font-weight:600;">{{ s.max_price }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div>
+                <h3 style="font-size:15px; color:#4a5568; margin-bottom:12px;">Trips by Train Type</h3>
+                <table class="stats-table">
+                    <tr><th>Train Type</th><th>Number of Trips</th></tr>
+                    {% for type, count in train_type_count.items() %}
+                    <tr>
+                        <td>
+                            {% if type == 'Rapid' %}<span class="type-rapid">Rapid</span>
+                            {% elif type == 'Coradia' %}<span class="type-coradia">Coradia</span>
+                            {% else %}<span class="type-normal">Normal</span>{% endif %}
+                        </td>
+                        <td style="font-weight:600;">{{ count }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+<footer>SNTF Railway Trip Management System — UMBB Project 2025/2026</footer>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transport>
+    <line id="L01" departure="Oran" arrival="Algiers">
+        <trip code="T101"><departure_city>Oran</departure_city><arrival_city>Algiers</arrival_city><schedule><departure_time>06:25</departure_time><arrival_time>11:30</arrival_time></schedule><train_type>Normal</train_type><class type="Economy"><price>900</price></class></trip>
+        <trip code="T102"><departure_city>Oran</departure_city><arrival_city>Algiers</arrival_city><schedule><departure_time>08:00</departure_time><arrival_time>12:30</arrival_time></schedule><train_type>Rapid</train_type><class type="Economy"><price>1020</price></class><class type="VIP"><price>2500</price></class></trip>
+        <trip code="T103"><departure_city>Oran</departure_city><arrival_city>Algiers</arrival_city><schedule><departure_time>15:00</departure_time><arrival_time>18:30</arrival_time></schedule><train_type>Coradia</train_type><class type="Economy"><price>1200</price></class></trip>
+    </line>
+    <line id="L02" departure="Algiers" arrival="Constantine">
+        <trip code="T201"><departure_city>Algiers</departure_city><arrival_city>Constantine</arrival_city><schedule><departure_time>07:00</departure_time><arrival_time>12:00</arrival_time></schedule><train_type>Rapid</train_type><class type="Economy"><price>1100</price></class><class type="VIP"><price>2800</price></class></trip>
+        <trip code="T202"><departure_city>Algiers</departure_city><arrival_city>Constantine</arrival_city><schedule><departure_time>14:00</departure_time><arrival_time>19:30</arrival_time></schedule><train_type>Normal</train_type><class type="Economy"><price>950</price></class></trip>
+    </line>
+    <line id="L03" departure="Constantine" arrival="Annaba">
+        <trip code="T301"><departure_city>Constantine</departure_city><arrival_city>Annaba</arrival_city><schedule><departure_time>09:00</departure_time><arrival_time>11:30</arrival_time></schedule><train_type>Coradia</train_type><class type="Economy"><price>600</price></class><class type="VIP"><price>1500</price></class></trip>
+        <trip code="T302"><departure_city>Constantine</departure_city><arrival_city>Annaba</arrival_city><schedule><departure_time>16:00</departure_time><arrival_time>18:30</arrival_time></schedule><train_type>Rapid</train_type><class type="Economy"><price>750</price></class></trip>
+    </line>
+    <line id="L04" departure="Algiers" arrival="Tizi Ouzou">
+        <trip code="T401"><departure_city>Algiers</departure_city><arrival_city>Tizi Ouzou</arrival_city><schedule><departure_time>07:30</departure_time><arrival_time>09:30</arrival_time></schedule><train_type>Rapid</train_type><class type="Economy"><price>450</price></class><class type="VIP"><price>900</price></class></trip>
+        <trip code="T402"><departure_city>Algiers</departure_city><arrival_city>Tizi Ouzou</arrival_city><schedule><departure_time>13:00</departure_time><arrival_time>15:00</arrival_time></schedule><train_type>Normal</train_type><class type="Economy"><price>350</price></class></trip>
+        <trip code="T403"><departure_city>Algiers</departure_city><arrival_city>Tizi Ouzou</arrival_city><schedule><departure_time>18:00</departure_time><arrival_time>20:00</arrival_time></schedule><train_type>Coradia</train_type><class type="Economy"><price>400</price></class></trip>
+    </line>
+    <line id="L05" departure="Algiers" arrival="Blida">
+        <trip code="T501"><departure_city>Algiers</departure_city><arrival_city>Blida</arrival_city><schedule><departure_time>06:00</departure_time><arrival_time>07:00</arrival_time></schedule><train_type>Rapid</train_type><class type="Economy"><price>250</price></class><class type="VIP"><price>500</price></class></trip>
+        <trip code="T502"><departure_city>Algiers</departure_city><arrival_city>Blida</arrival_city><schedule><departure_time>09:00</departure_time><arrival_time>10:00</arrival_time></schedule><train_type>Normal</train_type><class type="Economy"><price>200</price></class></trip>
+        <trip code="T503"><departure_city>Algiers</departure_city><arrival_city>Blida</arrival_city><schedule><departure_time>17:30</departure_time><arrival_time>18:30</arrival_time></schedule><train_type>Coradia</train_type><class type="Economy"><price>220</price></class></trip>
+    </line>
+    <line id="L06" departure="Annaba" arrival="Skikda">
+        <trip code="T601"><departure_city>Annaba</departure_city><arrival_city>Skikda</arrival_city><schedule><departure_time>08:00</departure_time><arrival_time>09:30</arrival_time></schedule><train_type>Normal</train_type><class type="Economy"><price>300</price></class></trip>
+        <trip code="T602"><departure_city>Annaba</departure_city><arrival_city>Skikda</arrival_city><schedule><departure_time>14:00</departure_time><arrival_time>15:30</arrival_time></schedule><train_type>Rapid</train_type><class type="Economy"><price>380</price></class><class type="VIP"><price>800</price></class></trip>
+    </line>
+</transport>
